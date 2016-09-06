@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import play.mvc.*;
 
 import scala.util.parsing.json.JSON;
@@ -13,9 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -30,6 +29,7 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     private List<String> wordList;
+    private List<String> acceptedList;
     private String randomWord;
 
     @Inject
@@ -45,6 +45,16 @@ public class HomeController extends Controller {
         Random random = new Random();
         int wordIndex = random.nextInt(wordList.size());
         randomWord = wordList.get(wordIndex);
+
+        ArrayList<String> resultList= new ArrayList<String>();
+        acceptedList = myCombinator("",randomWord,resultList);
+        for (Iterator<String> ite = acceptedList.iterator();
+             ite.hasNext();){
+            String word = ite.next();
+            if (!wordList.contains(word))
+                ite.remove();
+        }
+
         return ok(randomWord);
     }
 
@@ -52,7 +62,16 @@ public class HomeController extends Controller {
         return ok(index.render("Your new application is ready."));
     }
     public Result giveup() {
-        return ok(wordList.get(0));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<Integer,String> map = new HashMap<>();
+        int i=0;
+        for (String word : acceptedList){
+            map.put(i,word);
+            ++i;
+        }
+        JsonNode json = objectMapper.valueToTree(map);
+        return ok(json);
     }
 
     public Result submit() {
@@ -64,15 +83,21 @@ public class HomeController extends Controller {
             if(word == null) {
                 return badRequest("Missing parameter [name]");
             } else {
-                return ok(word);
+                return acceptedList.contains(word)?ok(word):ok();
             }
         }
+    }
+
+    public boolean isExist(String word){
+        return wordList.contains(word);
     }
 
     public ArrayList<String> myCombinator(String active, String rest, ArrayList<String> wordList){
         String subRest;
         if (rest.length() == 0){
-            wordList.add(active);
+            if (wordList.isEmpty()
+                    || !wordList.contains(active))
+                wordList.add(active);
         }
         else{
             subRest = rest.substring(1);

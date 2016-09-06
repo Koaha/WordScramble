@@ -15,3 +15,5 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 POST     /app/submit               controllers.HomeController.submit
 
 GET     /app/getword               controllers.HomeController.getRandomWord
+
+GET     /app/giveup               controllers.HomeController.giveup

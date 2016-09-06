@@ -15,6 +15,24 @@ angular.module('clientApp')
       'Karma'
     ];
 
+    $scope.giveup = function(){
+      $http.get('app/giveup')
+        .success(function (data, status, headers, config){
+          $log.debug(data);
+          $http.get('app/getword')
+            .success(function (data){
+              $scope.charList = shuffle(data);
+              $log.debug(data);
+            })
+            .error(function (error){
+              $log.debug(error)
+            })
+        })
+        .error(function (error){
+          $log.debug(error)
+        })
+    }
+
     $scope.keyPress = function(e){
       if (this.word === undefined){
         this.word = '';
@@ -76,11 +94,8 @@ function shuffle(str){
 
 function checkExist(key,charList){
   for (var i in charList){
-    console.log(key);
-
-    console.log(key.toLowerCase().charAt(0)==charList[i]);
-    if (key.toLowerCase()==charList[i])
-      return true;
+      if (key.toLowerCase()==charList[i])
+        return true;
   }
   return false;
 }
