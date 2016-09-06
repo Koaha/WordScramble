@@ -1,13 +1,15 @@
 /**
  * Created by Koha on 9/6/2016.
  */
+'use strict';
 
 function isContain(value, list){
   for (var i in list){
-    if (list[i] === value)
-      return true
+    if (list[i] === value) {
+      return true;
+    }
   }
-  return false
+  return false;
 }
 
 function shuffle(str){
@@ -21,10 +23,21 @@ function shuffle(str){
   return charList;
 }
 
+function getMissingList(foundList, fullList){
+  var missingList = [];
+  for (var i in fullList){
+    if (foundList.indexOf(fullList[i])===-1){
+      missingList.push(fullList[i]);
+    }
+  }
+  return missingList;
+}
+
 function checkExist(key,charList){
   for (var i in charList){
-    if (key.toLowerCase()==charList[i])
+    if (key.toLowerCase()===charList[i]) {
       return true;
+    }
   }
   return false;
 }

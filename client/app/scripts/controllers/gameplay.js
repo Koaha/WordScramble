@@ -14,22 +14,25 @@ angular.module('clientApp')
       'AngularJS',
       'Karma'
     ];
+    $scope.showdetail = false;
 
     $scope.giveup = function(){
       this.word = "";
       $http.get('app/giveup')
-        .success(function (data, status, headers, config){
-          $scope.resultList = [];
-          for (var item in data)
-            $scope.resultList.push(data[item]);
-          $log.debug($scope.resultList);
+        .success(function (data){
+          var resultList = [];
+          for (var item in data) {
+            resultList.push(data[item]);
+          }
+          $scope.showdetail = true;
+          $scope.foundList = $scope.acceptedList;
+          $scope.missingList = getMissingList($scope.foundList,resultList);
           doGetNewGame();
         })
         .error(function (error){
-          $log.debug(error)
-        })
-    }
-    ;
+          $log.debug(error);
+        });
+    };
     $scope.keyPress = function(e){
       if (this.word === undefined){
         this.word = '';
@@ -42,9 +45,9 @@ angular.module('clientApp')
           {
             $http.post('app/submit',{"word":this.word,"count":this.acceptedList.length})
               .success(function(data) {
-                $log.debug(data)
-                if (data !== "-1")
+                if (data !== "-1") {
                   $scope.acceptedList.push($scope.word);
+                }
                 if (data === "1"){
                   doGetNewGame();
                 }
@@ -66,8 +69,7 @@ angular.module('clientApp')
 
     };
     $scope.keyDown = function(e){
-      if (e.keyCode === 8 && this.word !== undefined
-        && this.word.length >0){
+      if (e.keyCode === 8 && this.word !== undefined && this.word.length >0){
         $scope.charList.push(this.word[this.word.length-1]);
         this.word = this.word.slice(0,-1);
       }
@@ -75,7 +77,6 @@ angular.module('clientApp')
     };
 
     function doGetNewGame(){
-
       $http({
         method: 'GET',
         url: 'app/getword'
@@ -83,15 +84,15 @@ angular.module('clientApp')
         // this callback will be called asynchronously
         // when the response is available
         $scope.charList = shuffle(response.data);
-        $scope.acceptedList = []
+        $scope.acceptedList = [];
         $scope.word = "";
       }, function errorCallback(response) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
-        $log(response)
+        $log(response);
       });
 
-    };
+    }
 
     doGetNewGame();
-  })
+  });

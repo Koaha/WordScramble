@@ -27,8 +27,17 @@
     </div>
   </td>
   <td>
+    <div class = "result-div" ng-show="showdetail">
+      Found {{foundList.length}}/{{foundList.length + missingList.length}}
+    </div>
+    <div class = "result-div">
+      <span ng-repeat="w in foundList track by $index">
+        <span class="glyphicon glyphicon-ok"></span> {{w}}
+      </span>
+    </div>
     <div class = "giveup-div">
-      <span ng-repeat="w in resultList track by $index">
+
+      <span ng-repeat="w in missingList track by $index">
         <span class="glyphicon glyphicon-remove"></span> {{w}}
       </span>
     </div>
