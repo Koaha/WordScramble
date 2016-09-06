@@ -58,7 +58,10 @@ body {
 .marketing p + h4 {
   margin-top: 28px;
 }
-
+.game-image{
+  height:200px;
+  width:200px
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {

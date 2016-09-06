@@ -32,6 +32,9 @@ public class HomeController extends Controller {
     private List<String> acceptedList;
     private String randomWord;
 
+    final String INCORRECT = "-1";
+    final String FINISHED = "1";
+
     @Inject
     public void HomeController(){
         try {
@@ -48,18 +51,21 @@ public class HomeController extends Controller {
 
         ArrayList<String> resultList= new ArrayList<String>();
         acceptedList = myCombinator("",randomWord,resultList);
-        for (Iterator<String> ite = acceptedList.iterator();
-             ite.hasNext();){
-            String word = ite.next();
+
+        Iterator<String> iter = acceptedList.iterator();
+
+        while (iter.hasNext()) {
+            String word = iter.next();
+
             if (!wordList.contains(word))
-                ite.remove();
+                iter.remove();
         }
 
         return ok(randomWord);
     }
 
     public Result index() {
-        return ok(index.render("Your new application is ready."));
+        return ok();
     }
     public Result giveup() {
 
@@ -80,16 +86,15 @@ public class HomeController extends Controller {
             return badRequest("Expecting Json data");
         } else {
             String word = json.findPath("word").textValue();
+            int count = json.findPath("count").intValue();
             if(word == null) {
-                return badRequest("Missing parameter [name]");
+                return badRequest("Missing parameter word");
             } else {
-                return acceptedList.contains(word)?ok(word):ok();
+                if (acceptedList.contains(word))
+                    return (count==acceptedList.size()-1)?ok(FINISHED):ok(word);
+                return ok(INCORRECT);
             }
         }
-    }
-
-    public boolean isExist(String word){
-        return wordList.contains(word);
     }
 
     public ArrayList<String> myCombinator(String active, String rest, ArrayList<String> wordList){

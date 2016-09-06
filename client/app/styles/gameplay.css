@@ -1,4 +1,5 @@
 .char-style{
+  height:50px;
   font-size: xx-large;
   color: #843534;
 }
@@ -7,5 +8,19 @@
   font-size: xx-large;
   color: #204d74;
   height: 300px;
-  width: 600px;
+  width: 400px;
+}
+
+.result-div{
+  font-size: large;
+  margin-left: 15px;
+  color: #3e8f3e;
+
+  width: 200px;
+}
+.giveup-div{
+  font-size: large;
+  margin-left: 15px;
+  color: #ac2925;
+  width: 200px;
 }

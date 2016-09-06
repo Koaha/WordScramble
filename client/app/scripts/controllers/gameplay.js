@@ -16,23 +16,20 @@ angular.module('clientApp')
     ];
 
     $scope.giveup = function(){
+      this.word = "";
       $http.get('app/giveup')
         .success(function (data, status, headers, config){
-          $log.debug(data);
-          $http.get('app/getword')
-            .success(function (data){
-              $scope.charList = shuffle(data);
-              $log.debug(data);
-            })
-            .error(function (error){
-              $log.debug(error)
-            })
+          $scope.resultList = [];
+          for (var item in data)
+            $scope.resultList.push(data[item]);
+          $log.debug($scope.resultList);
+          doGetNewGame();
         })
         .error(function (error){
           $log.debug(error)
         })
     }
-
+    ;
     $scope.keyPress = function(e){
       if (this.word === undefined){
         this.word = '';
@@ -41,14 +38,26 @@ angular.module('clientApp')
         case 8: // backspace button
           break;
         case 13: // enter button
-          $http.post('app/submit',{word:this.word})
-            .success(function(data) {
-              $log.debug(data);
-            });
+          if (!isContain(this.word,$scope.acceptedList))
+          {
+            $http.post('app/submit',{"word":this.word,"count":this.acceptedList.length})
+              .success(function(data) {
+                $log.debug(data)
+                if (data !== "-1")
+                  $scope.acceptedList.push($scope.word);
+                if (data === "1"){
+                  doGetNewGame();
+                }
+                $log.debug($scope.acceptedList);
+              });
+          }
+          else{
+            $log.debug("ALREADY HAVE");
+          }
           break;
         default:
           if (checkExist(e.key,$scope.charList)){
-            this.word += e.key;
+            this.word += e.key.toLowerCase();
             $scope.charList=
               getRemainingList(e.key,$scope.charList);
           }
@@ -65,43 +74,24 @@ angular.module('clientApp')
 
     };
 
-    $http({
-      method: 'GET',
-      url: 'app/getword'
-    }).then(function successCallback(response) {
-      // this callback will be called asynchronously
-      // when the response is available
-      $scope.charList = shuffle(response.data);
-    }, function errorCallback(response) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      $log(response)
-    });
+    function doGetNewGame(){
 
+      $http({
+        method: 'GET',
+        url: 'app/getword'
+      }).then(function successCallback(response) {
+        // this callback will be called asynchronously
+        // when the response is available
+        $scope.charList = shuffle(response.data);
+        $scope.acceptedList = []
+        $scope.word = "";
+      }, function errorCallback(response) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        $log(response)
+      });
 
+    };
+
+    doGetNewGame();
   })
-
-function shuffle(str){
-    var charList = str.split('');
-    for(var i= charList.length-1;i>0;--i){
-      var j = Math.floor(Math.random()*(i+1));
-      var temp = charList[i];
-      charList[i] = charList[j];
-      charList[j] = temp;
-    }
-    return charList;
-}
-
-function checkExist(key,charList){
-  for (var i in charList){
-      if (key.toLowerCase()==charList[i])
-        return true;
-  }
-  return false;
-}
-
-function getRemainingList(key,remainingList){
-  var i = remainingList.indexOf(key);
-  remainingList.splice(i,1);
-  return remainingList;
-}
