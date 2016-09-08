@@ -16,6 +16,8 @@ Move to client folder and install all required dependencies
 
 # How to play
 
+![word scramble](https://cloud.githubusercontent.com/assets/12490979/18345344/3eb31cf4-75e5-11e6-9e41-8a767b1eb99a.gif)
+
 **1. Hit start button to enter the game** (Awesome)
 
 **2. Simply type in any word you can think of from the list of given characters** (Yahoo!)
