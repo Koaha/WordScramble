@@ -10,9 +10,19 @@ This game also used proxy config by grunt
 Move to client folder and install all required dependencies
 > npm install
 
+Install bower as follow
+
+>npm install grunt-bower-install
+
+As staying in client folder and download required bower files
+
+>bower install
+
 ## Set up for server's side
 
 [Play framework Installing](https://www.playframework.com/)
+
+When running in localhost, set play framework to lift up server at port 9090
 
 # How to play
 
