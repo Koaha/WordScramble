@@ -1,44 +1,61 @@
-# WordScramble
-## Set up for client's side
 
-Grunt Installing
-> npm install grunt --save-dev
+# 🎉 WordScramble – Scramble Those Words! 🎉
 
-This game also used proxy config by grunt 
-> npm install grunt-connect-proxy --save-dev
+## 🔧 Setting Up the Client Side
 
-Move to client folder and install all required dependencies
-> npm install
+### Step 1: Install Grunt
+> `npm install grunt --save-dev`
 
-Install bower as follow
+Grunt is here to do all the heavy lifting. Get it in there!
 
->npm install grunt-bower-install
+### Step 2: Add Some Proxy Magic
+> `npm install grunt-connect-proxy --save-dev`
 
-As staying in client folder and download required bower files
+This game chats through proxies. Don’t ask why – just roll with it.
 
->bower install
+### Step 3: Get Into the Client Folder & Load Dependencies
+> `cd client`  
+> `npm install`
 
-## Set up for server's side
+Dependencies galore! Your client folder’s about to get loaded.
 
-[Play framework Installing](https://www.playframework.com/)
+### Step 4: Bring in the Bower Backup
+> `npm install grunt-bower-install`
 
-When running in localhost, set play framework to lift up server at port 9090
+Yes, Bower is involved. It’s like a sidekick that helps with front-end stuff.
 
-# How to play
+> `bower install`
 
-![word scramble](https://cloud.githubusercontent.com/assets/12490979/18345344/3eb31cf4-75e5-11e6-9e41-8a767b1eb99a.gif)
+Boom! Extra front-end goodies coming right up.
 
-**1. Hit start button to enter the game** (Awesome)
+---
 
-**2. Simply type in any word you can think of from the list of given characters** (Yahoo!)
+## 🔨 Setting Up the Server Side
 
-**3. Corrected word from the game's dictionary will be listed out** 
-   * Even if the word is correct, it may not valid as the dictionary does not contain it
-   (Do not blame me! Blame the one who make this dictionary)
+[Get the Play Framework](https://www.playframework.com/), because this server doesn’t lift itself. It’ll be dancing on port 9090.
 
-**4. The game will present new list of characters whenever player digs out all words** (Getting bored ?)
+---
 
-**5. Get *u*k off! Just hit "Give up" button, buddy all the sh!t will pop out** (and sometimes real sh!t is better than this sh!t)
+# 🎮 How to Play the Game 🎮
 
-Wiki for information
-===========================================================================================
+![Scramble Your Brain Here](https://cloud.githubusercontent.com/assets/12490979/18345344/3eb31cf4-75e5-11e6-9e41-8a767b1eb99a.gif)
+
+1. **Hit the Start Button**  
+   Start your adventure, if you dare. (It’s kinda awesome.)
+
+2. **Type Words Like a Maniac**  
+   Find any word from the jumbled letters. Yes, *any*. This dictionary is picky.
+
+3. **Cross Your Fingers**  
+   - If it’s in the dictionary, you score. If not, well… blame the dictionary maker.
+
+4. **When You’re Done, Hit “Give Up”**  
+   - See all the words you missed, just for fun. Sometimes ignorance is bliss.
+
+5. **Find a New Hobby**  
+   - Or play again and keep scrambling!
+
+---
+
+## 🎈 For More Fun, Check Out Our [Wiki](https://github.com/Koaha/WordScramble/wiki)! 🎈
+We’ve packed the wiki with even more ridiculous instructions to make setting this up as entertaining as possible. Go on, have a laugh!
